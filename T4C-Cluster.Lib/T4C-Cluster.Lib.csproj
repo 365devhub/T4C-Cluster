@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>T4C_Cluster.Lib</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Akka" Version="1.4.27" />
+    <PackageReference Include="Akka.Cluster" Version="1.4.27" />
+    <PackageReference Include="Akka.Cluster.Sharding" Version="1.4.27" />
+    <PackageReference Include="Akka.Cluster.Tools" Version="1.4.27" />
+    <PackageReference Include="Akka.DI.AutoFac" Version="1.4.27" />
+    <PackageReference Include="Akka.DI.Core" Version="1.4.27" />
+    <PackageReference Include="Akka.Logger.Serilog" Version="1.4.26" />
+    <PackageReference Include="Akka.Persistence" Version="1.4.27" />
+    <PackageReference Include="Akka.Remote" Version="1.4.27" />
+  </ItemGroup>
+
+</Project>
