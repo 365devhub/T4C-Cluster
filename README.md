@@ -9,7 +9,7 @@ The Emulator Is developped in C# Therefore, it is not based on any existing leak
 
 The emulator will be made of multiple server called nodes.
 
-<details><summary><strong>Network Node :</strong></summary>
+<details open><summary><strong>Network Node :</strong></summary>
 <p>
 Basically just a proxy / load balancer. It distributes the client request to the server nodes
 </p>
@@ -17,7 +17,7 @@ Basically just a proxy / load balancer. It distributes the client request to the
 
 
 
-<details><summary><strong>Player Node :</strong></summary>
+<details open><summary><strong>Player Node :</strong></summary>
   <p>
     <br/>
     PlayerActor :
