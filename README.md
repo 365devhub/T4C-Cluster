@@ -9,16 +9,14 @@ The Emulator Is developped in C# Therefore, it is not based on any existing leak
 
 The emulator will be made of multiple server called nodes.
 
-                       |   ________
-                       |  |        | 
-                       |  | WORKER | <---+
-                       |  |________|     |
- _________             |   ________      |
-|         | ---------> |  |        |     |
-| NETWORK |            |  | WORKER | <---+
-|________ | <--------- |  |________|     |
-                       |   ________      |
-                       |  |        |     |
-                       |  | WORKER | <---+    
-                       |  |________| 
-                       |
+**Network Node :**
+Basically juste a proxy or load balancer. It distributes the client request to the server nodes
+
+
+
+**Player Node :**
+Handles all of the request made by players.
+It also handle event sent between players and the game's world.
+
+
+
