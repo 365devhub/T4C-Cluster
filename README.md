@@ -20,7 +20,7 @@ Basically just a proxy / load balancer. It distributes the client request to the
 </p>
 </details>
 
-<details open><summary><strong>Player Node :</strong></summary>
+<details open><summary><strong>Worker Node :</strong></summary>
   <p>
     <br/>
     PlayerActor :
@@ -29,6 +29,7 @@ Basically just a proxy / load balancer. It distributes the client request to the
       <li>Handles all of the request made by players.</li>
       <li>It also handle event sent between players and the game's world.</li>
       <li>Actors are aware of all other actor in it environement and have basic informations. But if and Action on a other actor is required, is will be sent to that actor.</li>
+      <li>Uses persitence</li>
     </ul>
   </p>
   <p>
@@ -37,6 +38,24 @@ Basically just a proxy / load balancer. It distributes the client request to the
     <ul>
       <li>Handles the chatter channels</li>
       <li>Only one for the whole cluster.</li>
+      <li>Uses persitence</li>
+    </ul>
+  </p>
+  <p>
+    <br/>
+    HiveActor :
+    <ul>
+      <li>One actor per defined hive</li>
+      <li>Handles Monster hives</li>
+      <li>Hives are responsible of spawning monsters / Pnjs</li>
+    </ul>
+  </p>
+  <p>
+    <br/>
+    HiveUnitActor :
+    <ul>
+      <li>Handles Monster / NPCs</li>
+      <li>Children of HiveActor</li>
     </ul>
   </p>
 </details>
