@@ -31,10 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Protos\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\T4C-Cluster.Lib\T4C-Cluster.Lib.csproj" />
   </ItemGroup>
 
