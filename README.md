@@ -35,8 +35,8 @@ Basically just a proxy / load balancer. It distributes the client request to the
     <br/>
     ChatterActor :
     <ul>
-      <li>Only one for the whole cluster</li>
       <li>Handles the chatter channels</li>
+      <li>Only one for the whole cluster.</li>
     </ul>
   </p>
 </details>
