@@ -1,4 +1,4 @@
-# T4C-Cluster ![](https://github.com/365devhub/T4C-Cluster/actions/workflows/dotnet.yml/badge.svg)
+# T4C-Cluster ![](https://github.com/365devhub/T4C-Cluster/actions/workflows/BuildMaster.yml/badge.svg)
 
 This project aims to create a T4c Server emulator.
 The Emulator Is developped in C# Therefore, it is not based on any existing leaked code.
