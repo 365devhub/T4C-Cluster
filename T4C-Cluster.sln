@@ -13,6 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T4c-Cluster.Node.PlayerWork
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T4C-Cluster.Lib", "T4C-Cluster.Lib\T4C-Cluster.Lib.csproj", "{D7BD0116-1E38-471E-A1D8-3904940E50CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T4C-Cluster.API.Test", "T4C-Cluster.API.Test\T4C-Cluster.API.Test.csproj", "{1EF18E64-BC38-4305-9DA8-153A223E7DE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T4C-Cluster.Lib.Test", "T4C-Cluster.Lib.Test\T4C-Cluster.Lib.Test.csproj", "{2E169C76-B7AC-445E-BA67-D7D1A58BDA6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T4C-Cluster.Node.Network.Test", "T4C-Cluster.Node.Network.Test\T4C-Cluster.Node.Network.Test.csproj", "{7A9D47BE-4C8B-44D5-A395-E1B9C808DCEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T4c-Cluster.Node.PlayerWorker.Test", "T4c-Cluster.Node.PlayerWorker.Test\T4c-Cluster.Node.PlayerWorker.Test.csproj", "{805A6DCA-A4CA-4A5C-BA81-533EF211BEBD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,9 +43,31 @@ Global
 		{D7BD0116-1E38-471E-A1D8-3904940E50CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7BD0116-1E38-471E-A1D8-3904940E50CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7BD0116-1E38-471E-A1D8-3904940E50CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1EF18E64-BC38-4305-9DA8-153A223E7DE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1EF18E64-BC38-4305-9DA8-153A223E7DE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1EF18E64-BC38-4305-9DA8-153A223E7DE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1EF18E64-BC38-4305-9DA8-153A223E7DE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E169C76-B7AC-445E-BA67-D7D1A58BDA6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E169C76-B7AC-445E-BA67-D7D1A58BDA6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E169C76-B7AC-445E-BA67-D7D1A58BDA6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E169C76-B7AC-445E-BA67-D7D1A58BDA6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A9D47BE-4C8B-44D5-A395-E1B9C808DCEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A9D47BE-4C8B-44D5-A395-E1B9C808DCEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A9D47BE-4C8B-44D5-A395-E1B9C808DCEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A9D47BE-4C8B-44D5-A395-E1B9C808DCEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{805A6DCA-A4CA-4A5C-BA81-533EF211BEBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{805A6DCA-A4CA-4A5C-BA81-533EF211BEBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{805A6DCA-A4CA-4A5C-BA81-533EF211BEBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{805A6DCA-A4CA-4A5C-BA81-533EF211BEBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1EF18E64-BC38-4305-9DA8-153A223E7DE1} = {8CE282E5-3CCA-45F8-BE2F-7AB6F8F2BCA4}
+		{2E169C76-B7AC-445E-BA67-D7D1A58BDA6A} = {8CE282E5-3CCA-45F8-BE2F-7AB6F8F2BCA4}
+		{7A9D47BE-4C8B-44D5-A395-E1B9C808DCEE} = {8CE282E5-3CCA-45F8-BE2F-7AB6F8F2BCA4}
+		{805A6DCA-A4CA-4A5C-BA81-533EF211BEBD} = {8CE282E5-3CCA-45F8-BE2F-7AB6F8F2BCA4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {73F6EE5E-B786-45FF-A195-867F561F86E5}
