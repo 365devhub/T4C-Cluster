@@ -52,9 +52,17 @@ Basically just a proxy / load balancer. It distributes the client request to the
   </p>
   <p>
     <br/>
-    HiveUnitActor :
+    HiveMonsterActor :
     <ul>
-      <li>Handles Monster / NPCs</li>
+      <li>Handles Monster</li>
+      <li>Children of HiveActor</li>
+    </ul>
+  </p>
+  <p>
+    <br/>
+    HiveNpcActor :
+    <ul>
+      <li>Handles NPCs</li>
       <li>Children of HiveActor</li>
     </ul>
   </p>
