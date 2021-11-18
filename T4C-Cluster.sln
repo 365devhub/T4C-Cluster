@@ -9,8 +9,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8CE282E5
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T4C-Cluster.API", "T4C-Cluster.API\T4C-Cluster.API.csproj", "{D9941F31-DC1B-4899-A412-BB805BBAE018}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T4c-Cluster.Node.PlayerWorker", "T4c-Cluster.Node.PlayerWorker\T4c-Cluster.Node.PlayerWorker.csproj", "{A4EE4138-A79C-4D47-9098-2E7BF7163B96}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T4C-Cluster.Lib", "T4C-Cluster.Lib\T4C-Cluster.Lib.csproj", "{D7BD0116-1E38-471E-A1D8-3904940E50CC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T4C-Cluster.API.Test", "T4C-Cluster.API.Test\T4C-Cluster.API.Test.csproj", "{1EF18E64-BC38-4305-9DA8-153A223E7DE1}"
@@ -20,6 +18,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T4C-Cluster.Node.Network.Test", "T4C-Cluster.Node.Network.Test\T4C-Cluster.Node.Network.Test.csproj", "{7A9D47BE-4C8B-44D5-A395-E1B9C808DCEE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T4c-Cluster.Node.Worker.Test", "T4c-Cluster.Node.Worker.Test\T4c-Cluster.Node.Worker.Test.csproj", "{384DB45D-1623-4725-AEA4-F40952BEC9DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T4c-Cluster.Node.Worker", "T4c-Cluster.Node.Worker\T4c-Cluster.Node.Worker.csproj", "{E4193DDD-1984-473E-A58E-E65803242CF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,6 @@ Global
 		{D9941F31-DC1B-4899-A412-BB805BBAE018}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9941F31-DC1B-4899-A412-BB805BBAE018}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9941F31-DC1B-4899-A412-BB805BBAE018}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A4EE4138-A79C-4D47-9098-2E7BF7163B96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4EE4138-A79C-4D47-9098-2E7BF7163B96}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4EE4138-A79C-4D47-9098-2E7BF7163B96}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4EE4138-A79C-4D47-9098-2E7BF7163B96}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D7BD0116-1E38-471E-A1D8-3904940E50CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D7BD0116-1E38-471E-A1D8-3904940E50CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7BD0116-1E38-471E-A1D8-3904940E50CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,6 +55,10 @@ Global
 		{384DB45D-1623-4725-AEA4-F40952BEC9DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{384DB45D-1623-4725-AEA4-F40952BEC9DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{384DB45D-1623-4725-AEA4-F40952BEC9DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4193DDD-1984-473E-A58E-E65803242CF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4193DDD-1984-473E-A58E-E65803242CF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4193DDD-1984-473E-A58E-E65803242CF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4193DDD-1984-473E-A58E-E65803242CF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
