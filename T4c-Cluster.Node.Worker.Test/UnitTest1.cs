@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace T4c_Cluster.Node.PlayerWorker.Test
+namespace T4c_Cluster.Node.Worker.Test
 {
     public class Tests
     {
