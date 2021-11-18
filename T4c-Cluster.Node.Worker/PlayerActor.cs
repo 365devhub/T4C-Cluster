@@ -1,6 +1,6 @@
 ﻿using Akka.Persistence;
 
-namespace T4c_Cluster.Node.PlayerWorker
+namespace T4c_Cluster.Node.Worker
 {
     public class PlayerActor : ReceivePersistentActor
     {

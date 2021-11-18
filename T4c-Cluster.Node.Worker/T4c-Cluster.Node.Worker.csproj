@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>T4c_Cluster.Node.PlayerWorker</RootNamespace>
+    <RootNamespace>T4c_Cluster.Node.Worker</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
