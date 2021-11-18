@@ -9,9 +9,16 @@ The Emulator Is developped in C# Therefore, it is not based on any existing leak
 
 The emulator will be made of multiple server called nodes.
 
-
-
-
-
-
-
+                       |   ________
+                       |  |        | 
+                       |  | WORKER | <---+
+                       |  |________|     |
+ _________             |   ________      |
+|         | ---------> |  |        |     |
+| NETWORK |            |  | WORKER | <---+
+|________ | <--------- |  |________|     |
+                       |   ________      |
+                       |  |        |     |
+                       |  | WORKER | <---+    
+                       |  |________| 
+                       |
