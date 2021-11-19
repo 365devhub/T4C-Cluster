@@ -36,12 +36,14 @@ namespace T4C_Cluster.Node.Network
             ContainerBuilder builder = providerFactory.CreateBuilder(services);
             PrepareContainer(builder, configuration);
 
-
+            ActorSystem clusterSystem = null;
+            builder.Register<ActorSystem>(c=> clusterSystem);
             var container = builder.Build();
 
 
             var akkaConfig = ConfigurationFactory.ParseString(configuration.GetSection("akka").GetValue<string>("hocon"));
-            using var clusterSystem = ActorSystem.Create("ClusterSystem", akkaConfig);
+            
+            clusterSystem = ActorSystem.Create("ClusterSystem", akkaConfig);
             var region = ClusterSharding.Get(clusterSystem).StartProxy(typeName: "PlayerActor", role: null, messageExtractor: new ShardingMessageExtractor());
             
             clusterSystem.UseAutofac(container);
@@ -91,7 +93,7 @@ namespace T4C_Cluster.Node.Network
             builder.RegisterType<Greeter.GreeterClient>();
 
 
-
+            builder.Register<LocalActorRef>(c=> (LocalActorRef)ClusterSharding.Get(c.Resolve<ActorSystem>()).ShardRegion("PlayerActor")).As<IActorRef>().Keyed<IActorRef>("RegionPlayerActor");
             builder.RegisterType<NetworkActor>();
         }
 

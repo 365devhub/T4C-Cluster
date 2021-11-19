@@ -3,6 +3,7 @@ using Akka.Cluster;
 using Akka.Cluster.Sharding;
 using Akka.IO;
 using Akka.Persistence;
+using Autofac.Extras.Attributed;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
@@ -21,12 +22,12 @@ namespace T4C_Cluster.Node.Network
         private readonly IActorRef _region;
 
         public override string PersistenceId => Self.Path.Name;
-        public NetworkActor(IOptions<NetworkConfiguration> networkConfiguration)
+        public NetworkActor(IOptions<NetworkConfiguration> networkConfiguration,[WithKey("RegionPlayerActor")] IActorRef region)
         {
             _networkConfiguration = networkConfiguration;
 
             Context.System.Udp().Tell(new Udp.Bind(Self, new IPEndPoint(IPAddress.Parse(networkConfiguration.Value.Address), networkConfiguration.Value.Port)));
-            _region = ClusterSharding.Get(Context.System).ShardRegion("PlayerActor");
+            _region = region;
 
             Command<Udp.Received>(OnUdpReceive);
 
