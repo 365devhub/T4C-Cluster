@@ -69,6 +69,7 @@ Basically just a proxy / load balancer. It distributes the client request to the
 </details>
 
 
+You can see the [project board](https://github.com/365devhub/T4C-Cluster/projects) to view the progress. Please note that  issue will be created as the project itself progress
 
 
 
