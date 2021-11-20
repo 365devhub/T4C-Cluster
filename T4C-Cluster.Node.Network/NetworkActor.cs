@@ -37,7 +37,7 @@ namespace T4C_Cluster.Node.Network
 
         private void OnUdpReceive(Udp.Received obj)
         {
-            _region.Tell(new ShardingEnvelope(Convert.ToBase64String(Encoding.UTF8.GetBytes(obj.Sender.ToString())), obj.Data.ToArray()));
+            _region.Tell(new ShardingEnvelope(Convert.ToBase64String(Encoding.UTF8.GetBytes(obj.Sender.ToString())), new ShardedMessageDatagram(obj.Data.ToArray())));
         }
     }
 }
