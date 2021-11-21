@@ -19,7 +19,7 @@ namespace T4C_Cluster.Lib.Test.Cluster
             Fixture fixture = new Fixture();
             byte[] a = fixture.CreateMany<byte>().ToArray();
             //Act
-            var msg = new ShardedMessageDatagram(a);
+            var msg = new ShardedMessageDatagram(a,"127.0.0.1:11677");
             //Assert
             Assert.AreEqual(a,msg.Datas);
         }
