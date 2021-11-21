@@ -15,7 +15,6 @@ using Serilog.Events;
 using Serilog.Extensions.Autofac.DependencyInjection;
 using System;
 using System.Threading;
-using T4C_Cluster.API;
 using T4C_Cluster.Lib.Cluster;
 
 namespace T4C_Cluster.Node.Network
@@ -87,10 +86,6 @@ namespace T4C_Cluster.Node.Network
 
             builder.Register(c => Options.Create(config.GetSection("Network").Get<Configuration.NetworkConfiguration>())).InstancePerDependency();
 
-
-
-            builder.Register<GrpcChannel>(c => GrpcChannel.ForAddress(""));
-            builder.RegisterType<Greeter.GreeterClient>();
 
 
             builder.Register<LocalActorRef>(c=> (LocalActorRef)ClusterSharding.Get(c.Resolve<ActorSystem>()).ShardRegion("PlayerActor")).As<IActorRef>().Keyed<IActorRef>("RegionPlayerActor");

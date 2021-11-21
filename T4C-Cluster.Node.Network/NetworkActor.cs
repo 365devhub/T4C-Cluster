@@ -20,6 +20,7 @@ namespace T4C_Cluster.Node.Network
     {
         private readonly IOptions<NetworkConfiguration> _networkConfiguration;
         private readonly IActorRef _region;
+        private IActorRef SenderUdp;
 
         public override string PersistenceId => Self.Path.Name;
         public NetworkActor(IOptions<NetworkConfiguration> networkConfiguration,[WithKey("RegionPlayerActor")] IActorRef region)
@@ -30,14 +31,19 @@ namespace T4C_Cluster.Node.Network
             _region = region;
 
             Command<Udp.Received>(OnUdpReceive);
+            Command<ShardedMessageDatagram>(OnWorkerSending);
 
         }
 
-
+        private void OnWorkerSending(ShardedMessageDatagram message)
+        {
+            SenderUdp.Tell(Udp.Send.Create(ByteString.FromBytes(message.Datas), IPEndPoint.Parse(message.EndPoint)));
+        }
 
         private void OnUdpReceive(Udp.Received obj)
         {
-            _region.Tell(new ShardingEnvelope(Convert.ToBase64String(Encoding.UTF8.GetBytes(obj.Sender.ToString())), obj.Data.ToArray()));
+           SenderUdp = Sender;
+            _region.Tell(new ShardingEnvelope(Convert.ToBase64String(Encoding.UTF8.GetBytes(obj.Sender.ToString())), new ShardedMessageDatagram(obj.Data.ToArray(),obj.Sender.ToString())));
         }
     }
 }

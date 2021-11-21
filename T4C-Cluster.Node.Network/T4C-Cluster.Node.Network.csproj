@@ -36,12 +36,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\T4C-Cluster.API\Protos\greet.proto">
-      <Link>Protos\greet.proto</Link>
-    </Protobuf>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
