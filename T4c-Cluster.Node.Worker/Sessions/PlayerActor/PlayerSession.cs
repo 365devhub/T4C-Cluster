@@ -69,6 +69,8 @@ namespace T4c_Cluster.Node.Worker.Sessions.PlayerActor
         public ushort NextDatagramId = 0;
 
 
+        public bool IsAckScheduled { get; set; }
+
         /// <summary>
         /// Is the client Authentificated ?
         /// </summary>
@@ -78,6 +80,6 @@ namespace T4c_Cluster.Node.Worker.Sessions.PlayerActor
         /// Last time we received a datagram from a client
         /// </summary>
         public Stopwatch LastDatagramElapsedTime { get; }
-
+        public bool IsInGame { get;  set; }
     }
 }

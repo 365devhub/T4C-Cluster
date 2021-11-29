@@ -1,52 +1,69 @@
-﻿using System;
+﻿using Akka.Actor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using T4c_Cluster.Node.Worker.Attributes;
 using T4c_Cluster.Node.Worker.Sessions.PlayerActor;
+using T4C_Cluster.Lib;
 using T4C_Cluster.Lib.Network.Datagram.Message;
+using static T4c_Cluster.Node.Worker.Actors.PlayerActor;
 
 namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
 {
-    public class AuthentificationController : IControlerAction<RequestAuthenticateServerVersion, PlayerSession,Actors.PlayerActor>,
-                                              IControlerAction<RequestMessageOfTheDay, PlayerSession, Actors.PlayerActor>,
-                                              IControlerAction<RequestPatchServerInfoNew, PlayerSession, Actors.PlayerActor>,
-                                              IControlerAction<RequestRegisterAccount, PlayerSession, Actors.PlayerActor>,
-                                              IControlerAction<RequestExitGame, PlayerSession, Actors.PlayerActor>,
-                                              IControlerAction<RequestAck, PlayerSession, Actors.PlayerActor>
+    public class AuthentificationController : IControlerAction<RequestAuthenticateServerVersion, PlayerSession>,
+                                              IControlerAction<RequestMessageOfTheDay, PlayerSession>,
+                                              IControlerAction<RequestPatchServerInfoNew, PlayerSession>,
+                                              IControlerAction<RequestRegisterAccount, PlayerSession>,
+                                              IControlerAction<RequestExitGame, PlayerSession>,
+                                              IControlerAction<RequestAck, PlayerSession>
+
+
     {
 
-        public void Action(RequestAuthenticateServerVersion data, PlayerSession session, Actors.PlayerActor actor)
+        [ValidatePlayerAuthenticated]
+        [ValidatePlayerNotInGame]
+        public void Action(RequestAuthenticateServerVersion data, PlayerSession session, IActorRef actor)
         {
-
+            if(data.Version == Constants.SERVER_VERSION)
+                actor.Tell(new ResponseAuthenticateServerVersion() { ServerVersion=1 });
+            else
+                actor.Tell(new ResponseAuthenticateServerVersion() { ServerVersion=0 });
         }
 
-        public void Action(RequestAck data, PlayerSession session, Actors.PlayerActor actor)
+       /* [ValidatePlayerAuthenticated]
+        [ValidatePlayerNotInGame]
+        public void Action(RequestAck data, PlayerSession session, IActorRef actor)
         {
-
+            actor.Tell(ScheduledEvent.ScheduleAck);
         }
 
-        public void Action(RequestExitGame data, PlayerSession session, Actors.PlayerActor actor)
+        [ValidatePlayerAuthenticated]
+        [ValidatePlayerNotInGame]
+        public void Action(RequestExitGame data, PlayerSession session, IActorRef actor)
         {
             
         }
 
+        [SaveSnapshot]
         [ValidatePlayerNotAuthenticated]
-        public void Action(RequestRegisterAccount data, PlayerSession session, Actors.PlayerActor actor)
+        [ValidatePlayerNotInGame]
+        public void Action(RequestRegisterAccount data, PlayerSession session, IActorRef actor)
         {
-            actor.SendToClient(new ResponseRegisterAccount() { Code=0, Message = "haaaaa", UniqueKey = 1010101 } );
-
+            actor.Tell(new ResponseRegisterAccount() { Code=0, Message = "haaaaa", UniqueKey = 1010101 } );
+            session.IsAuthenticated = true;
         }
 
         [ValidatePlayerNotAuthenticated]
-        public void Action(RequestPatchServerInfoNew data, PlayerSession session, Actors.PlayerActor actor)
+        [ValidatePlayerNotInGame]
+        public void Action(RequestPatchServerInfoNew data, PlayerSession session, IActorRef actor)
         {
-            actor.SendToClient(new ResponsePatchServerInfoNew() { 
+            actor.Tell(new ResponsePatchServerInfoNew() { 
                  ImagePath = null,
                  Lang=null,
                  Password = null,
-                 ServerVersion=1720,
+                 ServerVersion = Constants.SERVER_VERSION,
                  Username=null,
                  WebPatchIP = null,
             });
@@ -54,9 +71,9 @@ namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
         }
 
         [ValidatePlayerNotAuthenticated]
-        public void Action(RequestMessageOfTheDay data, PlayerSession session, Actors.PlayerActor actor)
+        public void Action(RequestMessageOfTheDay data, PlayerSession session, IActorRef actor)
         {
-            actor.SendToClient(new ResponseMessageOfTheDay() { Message = "aaaaa" });
-        }
+            actor.Tell(new ResponseMessageOfTheDay() { Message = "aaaaa" });
+        }*/
     }
 }

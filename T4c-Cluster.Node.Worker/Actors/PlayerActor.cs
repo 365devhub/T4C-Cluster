@@ -11,14 +11,18 @@ using T4C_Cluster.Lib.Cluster;
 using T4C_Cluster.Lib.Network.Datagram;
 using T4C_Cluster.Lib.Network.Datagram.Attributes;
 using T4C_Cluster.Lib.Network.Datagram.Container;
+using T4C_Cluster.Lib.Network.Datagram.Message;
 
 namespace T4c_Cluster.Node.Worker.Actors
 {
     public class PlayerActor : ReceivePersistentActor
     {
-        private enum ScheduledEvent 
+        public enum ScheduledEvent 
         {
-            RelaunchMaintenance
+            RelaunchMaintenance,
+            LaunchAck,
+            ScheduleAck,
+            ScheduleAckForce
         }
         public override string PersistenceId => Self.Path.Name;
 
@@ -30,15 +34,49 @@ namespace T4c_Cluster.Node.Worker.Actors
         public PlayerActor(AuthentificationController authController)
         {
             _authController = authController;
-            this.RegisterControlerCommand(authController, Session, () => this.SaveSnapshot(this.Session));
+            this.RegisterControlerCommand(authController, Session, () => this.SaveSnapshot(this.Session),Self);
 
             Context.System.Scheduler.ScheduleTellRepeatedly(new System.TimeSpan(0), new System.TimeSpan(0, 0, 0, 0, 10), Self, ScheduledEvent.RelaunchMaintenance, ActorRefs.NoSender);
 
             Command<ShardedMessageDatagram>(OnDatagram);
-            Command<ScheduledEvent>(OnRelaunchMaintenance, i=>i == ScheduledEvent.RelaunchMaintenance);
+            Command<ScheduledEvent>(OnRelaunchMaintenance, i => i == ScheduledEvent.RelaunchMaintenance);
+            Command<ScheduledEvent>(OnLaunchAck, i => i == ScheduledEvent.LaunchAck);
+            Command<ScheduledEvent>(ScheduleAck, i => i == ScheduledEvent.ScheduleAck);
+            Command<ScheduledEvent>(ScheduleAckForce, i => i == ScheduledEvent.ScheduleAckForce);
+            Command<IResponse>(OnIResponse);
+            Recover<SnapshotOffer>(reco => OnRecovery((PlayerSession)reco.Snapshot));
         }
 
-        public void SendToClient(IResponse response)
+        private void OnRecovery(PlayerSession session) {
+            
+            Session = session;
+            if (Session.IsAckScheduled)
+            {
+                Self.Tell(ScheduledEvent.ScheduleAckForce);
+            }
+        }
+        private void ScheduleAck(ScheduledEvent obj)
+        {
+            _ScheduleAck();
+        }
+
+        private void ScheduleAckForce(ScheduledEvent obj)
+        {
+            _ScheduleAck(true);
+        }
+
+        private void _ScheduleAck(bool force = false)
+        {
+            if (Session.IsAckScheduled && !force)
+                return;
+
+            Session.IsAckScheduled = true;
+            Context.System.Scheduler.ScheduleTellRepeatedly(new System.TimeSpan(0), new System.TimeSpan(0,0,2), Self, ScheduledEvent.LaunchAck, ActorRefs.NoSender);
+            
+            this.SaveSnapshot(this.Session);
+        }
+
+        public void OnIResponse(IResponse response)
         {
             var needAck = ((DatagramTypeAttribute)response.GetType().GetCustomAttributes(typeof(DatagramTypeAttribute),true).Single()).NeedAck;
             var datagrams = MessageWriter.ToDatagramBody(response).GenerateDatagrams(false, needAck, GetNextDatagramId, GetNextGroupId);
@@ -52,6 +90,11 @@ namespace T4c_Cluster.Node.Worker.Actors
 
         }
 
+
+        private void OnLaunchAck(ScheduledEvent obj)
+        {
+            OnIResponse(new ResponseAck());
+        }
 
         private void OnRelaunchMaintenance(ScheduledEvent evnt)
         {
@@ -149,7 +192,7 @@ namespace T4c_Cluster.Node.Worker.Actors
         /// Get a list of datagram to resend. if the datagram reached its resend limit it is automatically removed
         /// </summary>
         /// <returns>the list of datagram to resend.</returns>
-        public IList<Datagram> GetDatagramsToRelaunch()
+        private IList<Datagram> GetDatagramsToRelaunch()
         {
             Session.DatagramsToRelaunch.RemoveAll(x => x.RelaunchCount >= x.RelaunchCountTotal);
 
@@ -192,5 +235,9 @@ namespace T4c_Cluster.Node.Worker.Actors
 
             return Session.NextGroupeId;
         }
+
+        
+
+        
     }
 }
