@@ -15,6 +15,7 @@ using Serilog.Extensions.Autofac.DependencyInjection;
 using System;
 using System.Threading;
 using T4c_Cluster.Node.Worker.Actors;
+using T4c_Cluster.Node.Worker.Controlers.PlayerActor;
 using T4C_Cluster.Lib.Cluster;
 
 namespace T4c_Cluster.Node.Worker
@@ -90,6 +91,7 @@ namespace T4c_Cluster.Node.Worker
 
 
             builder.RegisterType<PlayerActor>();
+            builder.RegisterType<AuthentificationController>();
         }
 
     }

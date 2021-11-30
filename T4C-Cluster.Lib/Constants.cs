@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace T4C_Cluster.Lib.Network.Datagram
+namespace T4C_Cluster.Lib
 {
-    public interface IRequest
+    public class Constants
     {
-        public bool IsValid();
+        public static readonly UInt32 SERVER_VERSION = 1720;
     }
 }

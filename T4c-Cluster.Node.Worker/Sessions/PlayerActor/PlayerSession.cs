@@ -58,11 +58,18 @@ namespace T4c_Cluster.Node.Worker.Sessions.PlayerActor
         }
 
         public static ushort MaximumAlreadyTreatedDatagramIndex = 100;
+        public static ushort MaximumDatagramId = 4095;
+        public static byte MaximumGroupId = 32;
 
         public ushort AlreadyTreatedDatagramIndex = 0;
         public ushort[] AlreadyTreatedDatagram = new ushort[MaximumAlreadyTreatedDatagramIndex];
         public List<PlayerSessionDatagramToRelaunch> DatagramsToRelaunch = new List<PlayerSessionDatagramToRelaunch>();
 
+        public byte NextGroupeId = 0;
+        public ushort NextDatagramId = 0;
+
+
+        public bool IsAckScheduled { get; set; }
 
         /// <summary>
         /// Is the client Authentificated ?
@@ -73,5 +80,6 @@ namespace T4c_Cluster.Node.Worker.Sessions.PlayerActor
         /// Last time we received a datagram from a client
         /// </summary>
         public Stopwatch LastDatagramElapsedTime { get; }
+        public bool IsInGame { get;  set; }
     }
 }
