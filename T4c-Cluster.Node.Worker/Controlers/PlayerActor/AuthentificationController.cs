@@ -12,12 +12,12 @@ using static T4c_Cluster.Node.Worker.Actors.PlayerActor;
 
 namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
 {
-    public class AuthentificationController : IControlerAction<RequestAuthenticateServerVersion, PlayerSession>,
+    public class AuthentificationController : IControlerAction<RequestAuthenticateServerVersion, PlayerSession>/*,
                                               IControlerAction<RequestMessageOfTheDay, PlayerSession>,
                                               IControlerAction<RequestPatchServerInfoNew, PlayerSession>,
                                               IControlerAction<RequestRegisterAccount, PlayerSession>,
                                               IControlerAction<RequestExitGame, PlayerSession>,
-                                              IControlerAction<RequestAck, PlayerSession>
+                                              IControlerAction<RequestAck, PlayerSession>*/
 
 
     {
