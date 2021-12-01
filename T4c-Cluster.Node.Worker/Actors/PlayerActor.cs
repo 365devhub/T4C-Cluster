@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using T4c_Cluster.Node.Worker.Controlers;
-using T4c_Cluster.Node.Worker.Controlers.PlayerActor;
+using T4c_Cluster.Node.Worker.Controllers.PlayerActor;
 using T4c_Cluster.Node.Worker.Sessions.PlayerActor;
 using T4C_Cluster.Lib.Cluster;
 using T4C_Cluster.Lib.Network.Datagram;

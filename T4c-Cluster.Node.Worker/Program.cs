@@ -17,7 +17,7 @@ using Serilog.Extensions.Autofac.DependencyInjection;
 using System;
 using System.Threading;
 using T4c_Cluster.Node.Worker.Actors;
-using T4c_Cluster.Node.Worker.Controlers.PlayerActor;
+using T4c_Cluster.Node.Worker.Controllers.PlayerActor;
 using T4C_Cluster.API;
 using T4C_Cluster.Lib.Cluster;
 

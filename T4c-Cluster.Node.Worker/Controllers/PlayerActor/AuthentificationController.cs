@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using T4c_Cluster.Node.Worker.Attributes;
+using T4c_Cluster.Node.Worker.Controlers;
 using T4c_Cluster.Node.Worker.Sessions.PlayerActor;
 using T4C_Cluster.Lib;
 using T4C_Cluster.Lib.Network.Datagram.Message;
@@ -13,7 +14,7 @@ using static T4c_Cluster.Node.Worker.Actors.PlayerActor;
 using static T4C_Cluster.API.Account;
 using static T4C_Cluster.API.Configuration;
 
-namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
+namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
 {
     public class AuthentificationController : IControlerAction<RequestAuthenticateServerVersion, PlayerSession>,
                                               IControlerAction<RequestMessageOfTheDay, PlayerSession>,
@@ -27,7 +28,7 @@ namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
         private ConfigurationClient _configurationClient;
         private AccountClient _accountClient;
 
-        public AuthentificationController(ConfigurationClient configurationClient,AccountClient accountClient)
+        public AuthentificationController(ConfigurationClient configurationClient, AccountClient accountClient)
         {
             _configurationClient = configurationClient;
             _accountClient = accountClient;
@@ -37,12 +38,12 @@ namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
         [ValidatePlayerNotInGame]
         public void Action(RequestAuthenticateServerVersion data, PlayerSession session, IActorRef actor)
         {
-            if(data.Version == Constants.SERVER_VERSION)
-                actor.Tell(new ResponseAuthenticateServerVersion() { ServerVersion=1 });
+            if (data.Version == Constants.SERVER_VERSION)
+                actor.Tell(new ResponseAuthenticateServerVersion() { ServerVersion = 1 });
             else
-                actor.Tell(new ResponseAuthenticateServerVersion() { ServerVersion=0 });
+                actor.Tell(new ResponseAuthenticateServerVersion() { ServerVersion = 0 });
         }
-        
+
         //[ValidatePlayerAuthenticated]
         //[ValidatePlayerNotInGame]
         public void Action(RequestAck data, PlayerSession session, IActorRef actor)
@@ -63,7 +64,7 @@ namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
         public void Action(RequestRegisterAccount data, PlayerSession session, IActorRef actor)
         {
             var psplit = data.Password.Split("\\");
-            var auth = new T4C_Cluster.API.AuthenticateRequest() { Username = data.Account,Password = psplit[0], Token = psplit.Length == 2 ? psplit[1] : "" };
+            var auth = new T4C_Cluster.API.AuthenticateRequest() { Username = data.Account, Password = psplit[0], Token = psplit.Length == 2 ? psplit[1] : "" };
             if (_accountClient.Authenticate(auth).Result)
             {
                 actor.Tell(new ResponseRegisterAccount() { Code = 0, Message = "haaaaa", UniqueKey = 1010101 });
@@ -81,13 +82,14 @@ namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
         public void Action(RequestPatchServerInfoNew data, PlayerSession session, IActorRef actor)
         {
             var info = _configurationClient.GetPatchServerInformations(new T4C_Cluster.API.PatchServerInformationsRequest());
-            actor.Tell(new ResponsePatchServerInfoNew() { 
-                 ImagePath = info.ImagePath,
-                 Lang= (ushort?)info.Lang,
-                 Password = info.Password,
-                 ServerVersion = Constants.SERVER_VERSION,
-                 Username= info.Username,
-                 WebPatchIP = info.WebPatchIP,
+            actor.Tell(new ResponsePatchServerInfoNew()
+            {
+                ImagePath = info.ImagePath,
+                Lang = (ushort?)info.Lang,
+                Password = info.Password,
+                ServerVersion = Constants.SERVER_VERSION,
+                Username = info.Username,
+                WebPatchIP = info.WebPatchIP,
             });
 
         }
