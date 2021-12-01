@@ -37,10 +37,20 @@
 
   <ItemGroup>
     <Folder Include="Configuration\" />
+    <Folder Include="Protos\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\T4C-Cluster.Lib\T4C-Cluster.Lib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\T4C-Cluster.API\Protos\Configuration.proto">
+      <Link>Protos\Configuration.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\T4C-Cluster.API\Protos\greet.proto">
+      <Link>Protos\greet.proto</Link>
+    </Protobuf>
   </ItemGroup>
 
 </Project>

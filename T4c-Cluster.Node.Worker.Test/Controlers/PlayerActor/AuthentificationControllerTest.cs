@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using AutoFixture;
+using Grpc.Core;
 using NSubstitute;
 using NUnit.Framework;
 using System;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 using T4c_Cluster.Node.Worker.Controlers.PlayerActor;
 using T4c_Cluster.Node.Worker.Sessions.PlayerActor;
 using T4C_Cluster.Lib.Network.Datagram.Message;
+using static T4C_Cluster.API.Configuration;
 
 namespace T4c_Cluster.Node.Worker.Test.Controlers.PlayerActor
 {
@@ -25,7 +27,7 @@ namespace T4c_Cluster.Node.Worker.Test.Controlers.PlayerActor
             var actor = Substitute.For<IActorRef>();
             var data = new RequestAuthenticateServerVersion() { Version= version };
             var session = new PlayerSession();
-            var controller = new AuthentificationController();
+            var controller = new AuthentificationController(null);
             
 
             //Act
@@ -97,22 +99,24 @@ namespace T4c_Cluster.Node.Worker.Test.Controlers.PlayerActor
             controller.Action(data, session, actor);
             //Assert
             actor.Received().Tell(Arg.Is());
-        }
+        }*/
 
         [Test]
         public void Action_RequestMessageOfTheDay()
         {
             //Arrange
             var actor = Substitute.For<IActorRef>();
-            var data = new RequestAuthenticateServerVersion();
+            var conf = Substitute.For<T4C_Cluster.API.Configuration.ConfigurationClient>();
+            var data = new RequestMessageOfTheDay();
             var session = new PlayerSession();
-            var controller = new AuthentificationController();
+            var controller = new AuthentificationController(conf);
 
+            conf.GetMessageOfTheDay(Arg.Any<T4C_Cluster.API.MessageOfTheDayRequest>()).Returns(new T4C_Cluster.API.MessageOfTheDayReply() { Message = "aaaa" });
 
             //Act
             controller.Action(data, session, actor);
             //Assert
-            actor.Received().Tell(Arg.Is());
-        }*/
+            actor.Received().Tell(Arg.Is<ResponseMessageOfTheDay>(x=>x.Message == "aaaa"));
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Akka.Actor;
+using Grpc.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,12 @@ using T4c_Cluster.Node.Worker.Sessions.PlayerActor;
 using T4C_Cluster.Lib;
 using T4C_Cluster.Lib.Network.Datagram.Message;
 using static T4c_Cluster.Node.Worker.Actors.PlayerActor;
+using static T4C_Cluster.API.Configuration;
 
 namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
 {
-    public class AuthentificationController : IControlerAction<RequestAuthenticateServerVersion, PlayerSession>/*,
-                                              IControlerAction<RequestMessageOfTheDay, PlayerSession>,
+    public class AuthentificationController : IControlerAction<RequestAuthenticateServerVersion, PlayerSession>,
+                                              IControlerAction<RequestMessageOfTheDay, PlayerSession>/*,
                                               IControlerAction<RequestPatchServerInfoNew, PlayerSession>,
                                               IControlerAction<RequestRegisterAccount, PlayerSession>,
                                               IControlerAction<RequestExitGame, PlayerSession>,
@@ -21,6 +23,12 @@ namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
 
 
     {
+        private ConfigurationClient _configurationClient;
+
+        public AuthentificationController(ConfigurationClient configurationClient) 
+        {
+            _configurationClient = configurationClient;
+        }
 
         [ValidatePlayerAuthenticated]
         [ValidatePlayerNotInGame]
@@ -68,12 +76,12 @@ namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
                  WebPatchIP = null,
             });
 
-        }
+        }*/
 
         [ValidatePlayerNotAuthenticated]
         public void Action(RequestMessageOfTheDay data, PlayerSession session, IActorRef actor)
         {
-            actor.Tell(new ResponseMessageOfTheDay() { Message = "aaaaa" });
-        }*/
+            actor.Tell(new ResponseMessageOfTheDay() { Message = _configurationClient.GetMessageOfTheDay(new T4C_Cluster.API.MessageOfTheDayRequest()).Message });
+        }
     }
 }
