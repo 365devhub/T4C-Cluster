@@ -113,17 +113,20 @@ namespace T4c_Cluster.Node.Worker.Test.Controlers.PlayerActor
         public void Action_RequestMessageOfTheDay()
         {
             //Arrange
+            Fixture fixture = new Fixture();
             var actor = Substitute.For<IActorRef>();
             var conf = Substitute.For<T4C_Cluster.API.Configuration.ConfigurationClient>();
             var data = new RequestMessageOfTheDay();
             var session = new PlayerSession();
             var controller = new AuthentificationController(conf);
 
-            
+            var ret = fixture.Create<T4C_Cluster.API.MessageOfTheDayReply>();
+            conf.GetMessageOfTheDay(Arg.Any<T4C_Cluster.API.MessageOfTheDayRequest>()).Returns(ret);
+
             //Act
             controller.Action(data, session, actor);
             //Assert
-            actor.Received().Tell(Arg.Is<ResponseMessageOfTheDay>(x=>x.Message == "aaaa"));
+            actor.Received().Tell(Arg.Is<ResponseMessageOfTheDay>(x=>x.Message == ret.Message));
         }
     }
 }
