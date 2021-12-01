@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using T4c_Cluster.Node.Worker.Controlers.PlayerActor;
 using T4c_Cluster.Node.Worker.Sessions.PlayerActor;
 using T4C_Cluster.Lib.Network.Datagram.Message;
+using static T4c_Cluster.Node.Worker.Actors.PlayerActor;
 using static T4C_Cluster.API.Configuration;
 
 namespace T4c_Cluster.Node.Worker.Test.Controlers.PlayerActor
@@ -25,9 +26,11 @@ namespace T4c_Cluster.Node.Worker.Test.Controlers.PlayerActor
         {
             //Arrange
             var actor = Substitute.For<IActorRef>();
+            var conf = Substitute.For<T4C_Cluster.API.Configuration.ConfigurationClient>();
+            var conf2 = Substitute.For<T4C_Cluster.API.Account.AccountClient>();
             var data = new RequestAuthenticateServerVersion() { Version= version };
             var session = new PlayerSession();
-            var controller = new AuthentificationController(null);
+            var controller = new AuthentificationController(conf, conf2);
             
 
             //Act
@@ -37,22 +40,25 @@ namespace T4c_Cluster.Node.Worker.Test.Controlers.PlayerActor
             
         }
 
-        /*[Test]
+        [Test]
         public void Action_RequestAck()
         {
             //Arrange
             var actor = Substitute.For<IActorRef>();
-            var data = new RequestAuthenticateServerVersion();
+            var conf = Substitute.For<T4C_Cluster.API.Configuration.ConfigurationClient>();
+            var conf2 = Substitute.For<T4C_Cluster.API.Account.AccountClient>();
+            var data = new RequestAck();
             var session = new PlayerSession();
-            var controller = new AuthentificationController();
+            var controller = new AuthentificationController(conf, conf2);
 
 
             //Act
             controller.Action(data, session, actor);
             //Assert
-            actor.Received().Tell(Arg.Is());
+            actor.Received().Tell(Arg.Is<ScheduledEvent>(e => e == ScheduledEvent.ScheduleAck));
         }
 
+        /*
         [Test]
         public void Action_RequestExitGame()
         {
@@ -66,24 +72,32 @@ namespace T4c_Cluster.Node.Worker.Test.Controlers.PlayerActor
             //Act
             controller.Action(data, session, actor);
             //Assert
-            actor.Received().Tell(Arg.Is());
-        }
+            actor.Received().Tell(Arg.Is<ScheduledEvent>(e=>  e == ScheduledEvent.ScheduleAck));
+        }*/
 
         [Test]
-        public void Action_RequestRegisterAccount()
+        [TestCase(true,0)]
+        [TestCase(false, 1)]
+        public void Action_RequestRegisterAccount(bool result, byte code)
         {
             //Arrange
+            Fixture fixture = new Fixture();
             var actor = Substitute.For<IActorRef>();
-            var data = new RequestAuthenticateServerVersion();
+            var conf = Substitute.For<T4C_Cluster.API.Configuration.ConfigurationClient>();
+            var conf2 = Substitute.For<T4C_Cluster.API.Account.AccountClient>();
+            var data = fixture.Create<RequestRegisterAccount>();
             var session = new PlayerSession();
-            var controller = new AuthentificationController();
+            var controller = new AuthentificationController(conf,conf2);
 
+            
+            var ret = new T4C_Cluster.API.AuthenticateReply() { Result = result };
+            conf2.Authenticate(Arg.Any<T4C_Cluster.API.AuthenticateRequest>()).Returns(ret);
 
             //Act
             controller.Action(data, session, actor);
             //Assert
-            actor.Received().Tell(Arg.Is());
-        }*/
+            actor.Received().Tell(Arg.Is<ResponseRegisterAccount>(a=>a.Code == (byte?)code));
+        }
 
         [Test]
         public void Action_RequestPatchServerInfoNew()
@@ -92,9 +106,10 @@ namespace T4c_Cluster.Node.Worker.Test.Controlers.PlayerActor
             Fixture fixture = new Fixture();
             var actor = Substitute.For<IActorRef>();
             var conf = Substitute.For<T4C_Cluster.API.Configuration.ConfigurationClient>();
+            var conf2 = Substitute.For<T4C_Cluster.API.Account.AccountClient>();
             var data = new RequestPatchServerInfoNew();
             var session = new PlayerSession();
-            var controller = new AuthentificationController(conf);
+            var controller = new AuthentificationController(conf, conf2);
 
             var ret = fixture.Create<T4C_Cluster.API.PatchServerInformationsReply>();
             conf.GetPatchServerInformations(Arg.Any<T4C_Cluster.API.PatchServerInformationsRequest>()).Returns(ret);
@@ -116,9 +131,10 @@ namespace T4c_Cluster.Node.Worker.Test.Controlers.PlayerActor
             Fixture fixture = new Fixture();
             var actor = Substitute.For<IActorRef>();
             var conf = Substitute.For<T4C_Cluster.API.Configuration.ConfigurationClient>();
+            var conf2 = Substitute.For<T4C_Cluster.API.Account.AccountClient>();
             var data = new RequestMessageOfTheDay();
             var session = new PlayerSession();
-            var controller = new AuthentificationController(conf);
+            var controller = new AuthentificationController(conf, conf2);
 
             var ret = fixture.Create<T4C_Cluster.API.MessageOfTheDayReply>();
             conf.GetMessageOfTheDay(Arg.Any<T4C_Cluster.API.MessageOfTheDayRequest>()).Returns(ret);

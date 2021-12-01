@@ -83,7 +83,7 @@ namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
             var info = _configurationClient.GetPatchServerInformations(new T4C_Cluster.API.PatchServerInformationsRequest());
             actor.Tell(new ResponsePatchServerInfoNew() { 
                  ImagePath = info.ImagePath,
-                 Lang= 0,
+                 Lang= (ushort?)info.Lang,
                  Password = info.Password,
                  ServerVersion = Constants.SERVER_VERSION,
                  Username= info.Username,
