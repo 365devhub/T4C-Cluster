@@ -5,6 +5,8 @@ using Akka.Configuration;
 using Akka.DI.Core;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Grpc.Core;
+using Grpc.Net.Client;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -16,6 +18,7 @@ using System;
 using System.Threading;
 using T4c_Cluster.Node.Worker.Actors;
 using T4c_Cluster.Node.Worker.Controlers.PlayerActor;
+using T4C_Cluster.API;
 using T4C_Cluster.Lib.Cluster;
 
 namespace T4c_Cluster.Node.Worker
@@ -85,8 +88,8 @@ namespace T4c_Cluster.Node.Worker
 
 
 
-            /*builder.Register<GrpcChannel>(c => GrpcChannel.ForAddress(""));
-            builder.RegisterType<Greeter.GreeterClient>();*/
+            builder.Register<GrpcChannel>(c => GrpcChannel.ForAddress("https://localhost:5001")).As<ChannelBase>();
+            builder.RegisterType<Configuration.ConfigurationClient>().UsingConstructor(typeof(ChannelBase));
 
 
 
