@@ -18,9 +18,9 @@ namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
     public class AuthentificationController : IControlerAction<RequestAuthenticateServerVersion, PlayerSession>,
                                               IControlerAction<RequestMessageOfTheDay, PlayerSession>,
                                               IControlerAction<RequestPatchServerInfoNew, PlayerSession>,
-                                              IControlerAction<RequestRegisterAccount, PlayerSession>/*,
-                                              IControlerAction<RequestExitGame, PlayerSession>,
-                                              IControlerAction<RequestAck, PlayerSession>*/
+                                              IControlerAction<RequestRegisterAccount, PlayerSession>,
+                                              //IControlerAction<RequestExitGame, PlayerSession>,
+                                              IControlerAction<RequestAck, PlayerSession>
 
 
     {
@@ -42,14 +42,14 @@ namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
             else
                 actor.Tell(new ResponseAuthenticateServerVersion() { ServerVersion=0 });
         }
-        /*
+        
         //[ValidatePlayerAuthenticated]
         //[ValidatePlayerNotInGame]
         public void Action(RequestAck data, PlayerSession session, IActorRef actor)
         {
             actor.Tell(ScheduledEvent.ScheduleAck);
         }
-
+        /*
         //[ValidatePlayerAuthenticated]
         //[ValidatePlayerNotInGame]
         public void Action(RequestExitGame data, PlayerSession session, IActorRef actor)
@@ -83,7 +83,7 @@ namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
             var info = _configurationClient.GetPatchServerInformations(new T4C_Cluster.API.PatchServerInformationsRequest());
             actor.Tell(new ResponsePatchServerInfoNew() { 
                  ImagePath = info.ImagePath,
-                 Lang= 0,
+                 Lang= (ushort?)info.Lang,
                  Password = info.Password,
                  ServerVersion = Constants.SERVER_VERSION,
                  Username= info.Username,
