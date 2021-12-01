@@ -9,15 +9,20 @@ namespace T4C_Cluster.API.Services
 {
     public class ConfigurationService : Configuration.ConfigurationBase
     {
-        private readonly ILogger<ConfigurationService> _logger;
-        public ConfigurationService(ILogger<ConfigurationService> logger)
+        /*private readonly ILogger<ConfigurationService> _logger;*/
+        public ConfigurationService(/*ILogger<ConfigurationService> logger*/)
         {
-            _logger = logger;
+            //_logger = logger;
         }
 
         public override Task<MessageOfTheDayReply> GetMessageOfTheDay(MessageOfTheDayRequest request, ServerCallContext context)
         {
             return Task.FromResult(new MessageOfTheDayReply() { Message = "aaaaa" }); 
+        }
+
+        public override Task<PatchServerInformationsReply> GetPatchServerInformations(PatchServerInformationsRequest request, ServerCallContext context)
+        {
+            return Task.FromResult(new PatchServerInformationsReply() { Lang = 1 });
         }
     }
 }

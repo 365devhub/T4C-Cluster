@@ -83,40 +83,50 @@ namespace T4c_Cluster.Node.Worker.Test.Controlers.PlayerActor
             controller.Action(data, session, actor);
             //Assert
             actor.Received().Tell(Arg.Is());
-        }
+        }*/
 
         [Test]
         public void Action_RequestPatchServerInfoNew()
         {
             //Arrange
+            Fixture fixture = new Fixture();
             var actor = Substitute.For<IActorRef>();
-            var data = new RequestAuthenticateServerVersion();
+            var conf = Substitute.For<T4C_Cluster.API.Configuration.ConfigurationClient>();
+            var data = new RequestPatchServerInfoNew();
             var session = new PlayerSession();
-            var controller = new AuthentificationController();
+            var controller = new AuthentificationController(conf);
 
+            var ret = fixture.Create<T4C_Cluster.API.PatchServerInformationsReply>();
+            conf.GetPatchServerInformations(Arg.Any<T4C_Cluster.API.PatchServerInformationsRequest>()).Returns(ret);
 
             //Act
             controller.Action(data, session, actor);
             //Assert
-            actor.Received().Tell(Arg.Is());
-        }*/
+            actor.Received().Tell(Arg.Is<ResponsePatchServerInfoNew>(x=>x.ImagePath == ret.ImagePath && 
+                                                                        x.Lang == (ushort?)ret.Lang && 
+                                                                        x.Password == ret.Password && 
+                                                                        x.Username == ret.Username && 
+                                                                        x.WebPatchIP == ret.WebPatchIP ));
+        }
 
         [Test]
         public void Action_RequestMessageOfTheDay()
         {
             //Arrange
+            Fixture fixture = new Fixture();
             var actor = Substitute.For<IActorRef>();
             var conf = Substitute.For<T4C_Cluster.API.Configuration.ConfigurationClient>();
             var data = new RequestMessageOfTheDay();
             var session = new PlayerSession();
             var controller = new AuthentificationController(conf);
 
-            conf.GetMessageOfTheDay(Arg.Any<T4C_Cluster.API.MessageOfTheDayRequest>()).Returns(new T4C_Cluster.API.MessageOfTheDayReply() { Message = "aaaa" });
+            var ret = fixture.Create<T4C_Cluster.API.MessageOfTheDayReply>();
+            conf.GetMessageOfTheDay(Arg.Any<T4C_Cluster.API.MessageOfTheDayRequest>()).Returns(ret);
 
             //Act
             controller.Action(data, session, actor);
             //Assert
-            actor.Received().Tell(Arg.Is<ResponseMessageOfTheDay>(x=>x.Message == "aaaa"));
+            actor.Received().Tell(Arg.Is<ResponseMessageOfTheDay>(x=>x.Message == ret.Message));
         }
     }
 }

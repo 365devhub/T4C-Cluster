@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using T4C_Cluster.API.Services;
 
 namespace T4C_Cluster.API
 {
@@ -36,6 +37,7 @@ namespace T4C_Cluster.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<GreeterService>();
+                endpoints.MapGrpcService<ConfigurationService>();
 
                 endpoints.MapGet("/", async context =>
                 {

@@ -8,6 +8,7 @@ package configuration;
 service Configuration {
   // Sends a greeting
   rpc GetMessageOfTheDay (MessageOfTheDayRequest) returns (MessageOfTheDayReply);
+  rpc GetPatchServerInformations(PatchServerInformationsRequest) returns (PatchServerInformationsReply);
 }
 
 // The request message containing the user's name.
@@ -17,4 +18,17 @@ message MessageOfTheDayRequest {
 // The response message containing the greetings.
 message MessageOfTheDayReply {
   string message = 1;
+}
+
+
+
+// The request message containing the user's name.
+message PatchServerInformationsRequest {
+}
+message PatchServerInformationsReply {
+  string ImagePath = 1;
+  uint32 Lang = 2;
+  string Password = 3;
+  string Username = 4;
+  string WebPatchIP = 5;
 }

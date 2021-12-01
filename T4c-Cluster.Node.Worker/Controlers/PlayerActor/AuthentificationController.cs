@@ -15,8 +15,8 @@ using static T4C_Cluster.API.Configuration;
 namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
 {
     public class AuthentificationController : IControlerAction<RequestAuthenticateServerVersion, PlayerSession>,
-                                              IControlerAction<RequestMessageOfTheDay, PlayerSession>/*,
-                                              IControlerAction<RequestPatchServerInfoNew, PlayerSession>,
+                                              IControlerAction<RequestMessageOfTheDay, PlayerSession>,
+                                              IControlerAction<RequestPatchServerInfoNew, PlayerSession>/*,
                                               IControlerAction<RequestRegisterAccount, PlayerSession>,
                                               IControlerAction<RequestExitGame, PlayerSession>,
                                               IControlerAction<RequestAck, PlayerSession>*/
@@ -61,22 +61,23 @@ namespace T4c_Cluster.Node.Worker.Controlers.PlayerActor
         {
             actor.Tell(new ResponseRegisterAccount() { Code=0, Message = "haaaaa", UniqueKey = 1010101 } );
             session.IsAuthenticated = true;
-        }
+        }*/
 
         [ValidatePlayerNotAuthenticated]
         [ValidatePlayerNotInGame]
         public void Action(RequestPatchServerInfoNew data, PlayerSession session, IActorRef actor)
         {
+            var info = _configurationClient.GetPatchServerInformations(new T4C_Cluster.API.PatchServerInformationsRequest());
             actor.Tell(new ResponsePatchServerInfoNew() { 
-                 ImagePath = null,
-                 Lang=null,
-                 Password = null,
+                 ImagePath = info.ImagePath,
+                 Lang= (ushort?)info.Lang,
+                 Password = info.Password,
                  ServerVersion = Constants.SERVER_VERSION,
-                 Username=null,
-                 WebPatchIP = null,
+                 Username= info.Username,
+                 WebPatchIP = info.WebPatchIP,
             });
 
-        }*/
+        }
 
         [ValidatePlayerNotAuthenticated]
         public void Action(RequestMessageOfTheDay data, PlayerSession session, IActorRef actor)
