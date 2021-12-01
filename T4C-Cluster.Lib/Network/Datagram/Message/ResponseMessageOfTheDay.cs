@@ -9,7 +9,7 @@ namespace T4C_Cluster.Lib.Network.Datagram.Message
     {
         public ResponseMessageOfTheDay()  { }
 
-        [DataTypeString16(4)]
+        [DataTypeString16(0)]
         public string Message { get; set; }
 
     }

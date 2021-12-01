@@ -22,7 +22,7 @@ namespace T4C_Cluster.API.Services
 
         public override Task<PatchServerInformationsReply> GetPatchServerInformations(PatchServerInformationsRequest request, ServerCallContext context)
         {
-            return Task.FromResult(new PatchServerInformationsReply() { Lang = 1 });
+            return Task.FromResult(new PatchServerInformationsReply() { Lang = 1, Password = "" , Username = "", WebPatchIP = "", ImagePath = "" });
         }
     }
 }

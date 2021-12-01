@@ -45,6 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Protobuf Include="..\T4C-Cluster.API\Protos\Account.proto">
+      <Link>Protos\Account.proto</Link>
+    </Protobuf>
     <Protobuf Include="..\T4C-Cluster.API\Protos\Configuration.proto">
       <Link>Protos\Configuration.proto</Link>
     </Protobuf>

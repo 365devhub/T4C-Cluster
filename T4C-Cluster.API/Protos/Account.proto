@@ -1,0 +1,24 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "T4C_Cluster.API";
+
+package account;
+
+
+// The greeting service definition.
+service Account {
+  // Sends a greeting
+  rpc Authenticate(AuthenticateRequest) returns (AuthenticateReply);
+}
+
+// The request message containing the user's name.
+message AuthenticateRequest {
+	string Username = 1;
+	string Password = 2;
+	string Token = 3;
+}
+
+// The response message containing the greetings.
+message AuthenticateReply {
+  bool Result = 1;
+}
