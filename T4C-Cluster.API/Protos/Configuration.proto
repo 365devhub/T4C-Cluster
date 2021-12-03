@@ -9,6 +9,7 @@ service Configuration {
   // Sends a greeting
   rpc GetMessageOfTheDay (MessageOfTheDayRequest) returns (MessageOfTheDayReply);
   rpc GetPatchServerInformations(PatchServerInformationsRequest) returns (PatchServerInformationsReply);
+  rpc GetTranslation(TranslationRequest) returns (TranslationReply);
 }
 
 // The request message containing the user's name.
@@ -31,4 +32,15 @@ message PatchServerInformationsReply {
   string Password = 3;
   string Username = 4;
   string WebPatchIP = 5;
+}
+
+// The request message containing the user's name.
+message TranslationRequest {
+	string TranslationKey = 1;
+	string TranslationLang = 2;
+}
+
+// The response message containing the greetings.
+message TranslationReply {
+  string Text = 1;
 }

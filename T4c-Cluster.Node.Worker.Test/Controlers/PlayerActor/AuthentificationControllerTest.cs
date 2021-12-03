@@ -1,14 +1,8 @@
 ﻿using Akka.Actor;
 using AutoFixture;
-using Grpc.Core;
 using NSubstitute;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using T4c_Cluster.Node.Worker.Controlers.PlayerActor;
+using T4c_Cluster.Node.Worker.Controllers.PlayerActor;
 using T4c_Cluster.Node.Worker.Sessions.PlayerActor;
 using T4C_Cluster.Lib.Network.Datagram.Message;
 using static T4c_Cluster.Node.Worker.Actors.PlayerActor;

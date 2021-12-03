@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace T4c_Cluster.Node.Worker.Controlers
+namespace T4c_Cluster.Node.Worker.Controllers
 {
     public interface IControlerAction<TData, TSession>
     {

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using T4c_Cluster.Node.Worker.Attributes;
 using T4c_Cluster.Node.Worker.Sessions.PlayerActor;
 
-namespace T4c_Cluster.Node.Worker.Controlers
+namespace T4c_Cluster.Node.Worker.Controllers
 {
     public static class ReceivePersistentActorExtentions
     {
