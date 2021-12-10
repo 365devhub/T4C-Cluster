@@ -3,15 +3,15 @@ using System;
 using T4C_Cluster.Lib.Network.Datagram.Attributes;
 using T4C_Cluster.Lib.Network.Datagram.Enums;
 
-namespace T4C_Cluster.Lib.Network.Datagram.Message
+namespace T4C_Cluster.Lib.Network.Datagram.Message.Authentification
 {
     [DatagramType(DatagramTypeEnum.AuthenticateServerVersion, DatagramDirectionEnum.Out)]
     public class ResponseAuthenticateServerVersion : IResponse
     {
-        public ResponseAuthenticateServerVersion()  { }
+        public ResponseAuthenticateServerVersion() { }
 
         [DataTypeUInt32(0)]
-        public UInt32? ServerVersion { get; set; }
+        public uint? ServerVersion { get; set; }
 
     }
 }

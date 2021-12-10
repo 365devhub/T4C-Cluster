@@ -3,7 +3,7 @@ using System;
 using T4C_Cluster.Lib.Network.Datagram.Attributes;
 using T4C_Cluster.Lib.Network.Datagram.Enums;
 
-namespace T4C_Cluster.Lib.Network.Datagram.Message
+namespace T4C_Cluster.Lib.Network.Datagram.Message.Authentification
 {
     [DatagramType(DatagramTypeEnum.RegisterAccount, DatagramDirectionEnum.Out)]
     public class ResponseRegisterAccount : IResponse
@@ -21,7 +21,7 @@ namespace T4C_Cluster.Lib.Network.Datagram.Message
         public string Message { get; set; }
 
         [DataTypeUInt32(2)]
-        public UInt32? UniqueKey { get; set; }
+        public uint? UniqueKey { get; set; }
 
     }
 }

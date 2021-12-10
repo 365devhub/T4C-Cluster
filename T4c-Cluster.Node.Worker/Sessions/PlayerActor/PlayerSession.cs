@@ -81,5 +81,6 @@ namespace T4c_Cluster.Node.Worker.Sessions.PlayerActor
         /// </summary>
         public Stopwatch LastDatagramElapsedTime { get; }
         public bool IsInGame { get;  set; }
+        public string Account { get;  set; }
     }
 }

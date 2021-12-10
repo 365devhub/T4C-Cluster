@@ -3,7 +3,7 @@ using System;
 using T4C_Cluster.Lib.Network.Datagram.Attributes;
 using T4C_Cluster.Lib.Network.Datagram.Enums;
 
-namespace T4C_Cluster.Lib.Network.Datagram.Message
+namespace T4C_Cluster.Lib.Network.Datagram.Message.Authentification
 {
 
     [DatagramType(DatagramTypeEnum.AuthenticateServerVersion, DatagramDirectionEnum.In)]
@@ -12,11 +12,11 @@ namespace T4C_Cluster.Lib.Network.Datagram.Message
         public RequestAuthenticateServerVersion() { }
 
         [DataTypeUInt32(0)]
-        public UInt32? Version { get; set; }
+        public uint? Version { get; set; }
 
         public bool IsValid()
         {
-            return this.Version.HasValue;
+            return Version.HasValue;
         }
     }
 }

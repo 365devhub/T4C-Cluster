@@ -3,6 +3,7 @@ using T4c_Cluster.Node.Worker.Attributes;
 using T4c_Cluster.Node.Worker.Sessions.PlayerActor;
 using T4C_Cluster.Lib;
 using T4C_Cluster.Lib.Network.Datagram.Message;
+using T4C_Cluster.Lib.Network.Datagram.Message.Authentification;
 using static T4c_Cluster.Node.Worker.Actors.PlayerActor;
 using static T4C_Cluster.API.Account;
 using static T4C_Cluster.API.Configuration;
@@ -37,8 +38,7 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
                 actor.Tell(new ResponseAuthenticateServerVersion() { ServerVersion = 0 });
         }
 
-        //[ValidatePlayerAuthenticated]
-        //[ValidatePlayerNotInGame]
+        [ValidatePlayerAuthenticated]
         public void Action(RequestAck data, PlayerSession session, IActorRef actor)
         {
             actor.Tell(ScheduledEvent.ScheduleAck);
@@ -63,6 +63,7 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
                 var text = _configurationClient.GetTranslation(new T4C_Cluster.API.TranslationRequest() { TranslationKey = "Authentication.Success", TranslationLang = data.Langue.ToString()  })?.Text;
                 actor.Tell(new ResponseRegisterAccount() { Code = 0, Message = text, UniqueKey = 1010101 });
                 session.IsAuthenticated = true;
+                session.Account = data.Account;
             }
             else
             {
