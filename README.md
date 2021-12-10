@@ -2,8 +2,8 @@
 ![](https://github.com/365devhub/T4C-Cluster/actions/workflows/BuildMaster.yml/badge.svg)
 
 This project aims to create a T4c Server emulator.
-The Emulator Is developped in C# Therefore, it is not based on any existing leaked code.
-
+The Emulator Is developped in C#. Therefore, it is not based on any existing leaked code.
+It will work with the client version 1.72
 
 ## General informations
 
