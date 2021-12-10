@@ -4,7 +4,7 @@ using NSubstitute;
 using NUnit.Framework;
 using T4c_Cluster.Node.Worker.Controllers.PlayerActor;
 using T4c_Cluster.Node.Worker.Sessions.PlayerActor;
-using T4C_Cluster.Lib.Network.Datagram.Message;
+using T4C_Cluster.Lib.Network.Datagram.Message.Authentification;
 using static T4c_Cluster.Node.Worker.Actors.PlayerActor;
 using static T4C_Cluster.API.Configuration;
 

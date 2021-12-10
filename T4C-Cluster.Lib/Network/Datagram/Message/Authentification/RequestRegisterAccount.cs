@@ -3,7 +3,7 @@ using System;
 using T4C_Cluster.Lib.Network.Datagram.Attributes;
 using T4C_Cluster.Lib.Network.Datagram.Enums;
 
-namespace T4C_Cluster.Lib.Network.Datagram.Message
+namespace T4C_Cluster.Lib.Network.Datagram.Message.Authentification
 {
 
     [DatagramType(DatagramTypeEnum.RegisterAccount, DatagramDirectionEnum.In)]
@@ -20,11 +20,11 @@ namespace T4C_Cluster.Lib.Network.Datagram.Message
 
 
         [DataTypeUInt16(2)]
-        public UInt16? Version { get; set; }
+        public ushort? Version { get; set; }
 
 
         [DataTypeUInt16(3)]
-        public UInt16? Langue { get; set; }
+        public ushort? Langue { get; set; }
 
 
         public bool IsValid()

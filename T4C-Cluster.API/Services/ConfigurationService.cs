@@ -34,5 +34,10 @@ namespace T4C_Cluster.API.Services
             else
                 return Task.FromResult(new TranslationReply() { Text = request.TranslationKey });
         }
+
+        public override Task<NbCharacterMaxReply> GetNbCharacterMax(NbCharacterMaxRequest request, ServerCallContext context)
+        {
+            return Task.FromResult(new NbCharacterMaxReply() { NbMax = 3 });
+        }
     }
 }

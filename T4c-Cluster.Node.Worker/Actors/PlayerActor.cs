@@ -11,6 +11,7 @@ using T4C_Cluster.Lib.Network.Datagram;
 using T4C_Cluster.Lib.Network.Datagram.Attributes;
 using T4C_Cluster.Lib.Network.Datagram.Container;
 using T4C_Cluster.Lib.Network.Datagram.Message;
+using T4C_Cluster.Lib.Network.Datagram.Message.Authentification;
 
 namespace T4c_Cluster.Node.Worker.Actors
 {
@@ -27,13 +28,15 @@ namespace T4c_Cluster.Node.Worker.Actors
 
         private PlayerSession Session = new PlayerSession();
         private AuthentificationController _authController;
-
+        private MainMenuController _mainMenuController;
         private IActorRef _UdpSender;
         private string _EndPoint;
-        public PlayerActor(AuthentificationController authController)
+        public PlayerActor(AuthentificationController authController,MainMenuController mainMenuController)
         {
             _authController = authController;
-            this.RegisterControlerCommand(authController, Session, () => this.SaveSnapshot(this.Session),Self);
+            _mainMenuController = mainMenuController;
+            this.RegisterControlerCommand(authController, Session, () => this.SaveSnapshot(this.Session), Self);
+            this.RegisterControlerCommand(_mainMenuController, Session, () => this.SaveSnapshot(this.Session), Self);
 
             Context.System.Scheduler.ScheduleTellRepeatedly(new System.TimeSpan(0), new System.TimeSpan(0, 0, 0, 0, 10), Self, ScheduledEvent.RelaunchMaintenance, ActorRefs.NoSender);
 
@@ -84,7 +87,7 @@ namespace T4c_Cluster.Node.Worker.Actors
             datagrams.ForEach((d) => {
                 if(needAck)
                     AddDatagramToRelaunch(d);
-                _UdpSender.Tell(new ShardedMessageDatagram(ByteString.CopyFrom(d.GenerateBuffer()).ToArray(), _EndPoint));
+                _UdpSender?.Tell(new ShardedMessageDatagram(ByteString.CopyFrom(d.GenerateBuffer()).ToArray(), _EndPoint));
             });
 
         }

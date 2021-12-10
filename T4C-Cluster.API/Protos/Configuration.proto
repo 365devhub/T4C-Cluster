@@ -10,6 +10,7 @@ service Configuration {
   rpc GetMessageOfTheDay (MessageOfTheDayRequest) returns (MessageOfTheDayReply);
   rpc GetPatchServerInformations(PatchServerInformationsRequest) returns (PatchServerInformationsReply);
   rpc GetTranslation(TranslationRequest) returns (TranslationReply);
+  rpc GetNbCharacterMax(NbCharacterMaxRequest) returns (NbCharacterMaxReply);
 }
 
 // The request message containing the user's name.
@@ -43,4 +44,11 @@ message TranslationRequest {
 // The response message containing the greetings.
 message TranslationReply {
   string Text = 1;
+}
+
+message NbCharacterMaxRequest{
+}
+
+message NbCharacterMaxReply{
+	uint32 NbMax = 1;
 }

@@ -91,11 +91,13 @@ namespace T4c_Cluster.Node.Worker
             builder.Register<GrpcChannel>(c => GrpcChannel.ForAddress("https://localhost:5001")).As<ChannelBase>();
             builder.RegisterType<Configuration.ConfigurationClient>().UsingConstructor(typeof(ChannelBase));
             builder.RegisterType<Account.AccountClient>().UsingConstructor(typeof(ChannelBase));
+            builder.RegisterType<Caracter.CaracterClient>().UsingConstructor(typeof(ChannelBase));
 
 
 
             builder.RegisterType<PlayerActor>();
             builder.RegisterType<AuthentificationController>();
+            builder.RegisterType<MainMenuController>();
         }
 
     }
