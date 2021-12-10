@@ -39,6 +39,7 @@ namespace T4C_Cluster.API
                 endpoints.MapGrpcService<GreeterService>();
                 endpoints.MapGrpcService<ConfigurationService>();
                 endpoints.MapGrpcService<AccountService>();
+                endpoints.MapGrpcService<CaracterService>();
 
                 endpoints.MapGet("/", async context =>
                 {
