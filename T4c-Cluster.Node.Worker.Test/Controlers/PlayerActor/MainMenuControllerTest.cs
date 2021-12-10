@@ -26,7 +26,7 @@ namespace T4c_Cluster.Node.Worker.Test.Controlers.PlayerActor
             var session = new PlayerSession() { Account = "aaaa" };
             var controller = new MainMenuController(conf, conf2);
 
-            conf2.GetCharacters(Arg.Any<T4C_Cluster.API.GetCharactersRequest>()).Returns(new T4C_Cluster.API.GetCharactersReply());
+            conf2.GetCaracters(Arg.Any<T4C_Cluster.API.GetCaractersRequest>()).Returns(new T4C_Cluster.API.GetCaractersReply());
             conf.GetNbCharacterMax(Arg.Any<T4C_Cluster.API.NbCharacterMaxRequest>()).Returns(new T4C_Cluster.API.NbCharacterMaxReply() { NbMax = 1 });
             //Act
             controller.Action(data, session, actor);

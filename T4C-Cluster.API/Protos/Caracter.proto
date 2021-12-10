@@ -5,7 +5,8 @@ option csharp_namespace = "T4C_Cluster.API";
 package caracter;
 
 service Caracter {
-  rpc GetCharacters(GetCharactersRequest) returns (GetCharactersReply);
+  rpc GetCaracters(GetCaractersRequest) returns (GetCaractersReply);
+  rpc DeleteCaracter(DeleteCaracterRequest) returns (DeleteCaracterReply);
 }
 
 
@@ -31,13 +32,13 @@ enum EquipmentPosition
     WeaponRight = 18;
 };
 
-message GetCharactersRequest {
+message GetCaractersRequest {
 	string Username = 1;
 }
 
-message GetCharactersReply {
-	message GetCharactersReply_Character {
-		message GetCharactersReply_CharacterEquipment{
+message GetCaractersReply {
+	message GetCaractersReply_Caracter {
+		message GetCaractersReply_CaracterEquipment{
             EquipmentPosition Position = 1;
             uint32 SkinId = 2;
         }
@@ -46,8 +47,16 @@ message GetCharactersReply {
 		uint32 Level = 2;
 		uint32 Race =3;
 
-        repeated GetCharactersReply_CharacterEquipment Equipments = 4;
+        repeated GetCaractersReply_CaracterEquipment Equipments = 4;
 
 	}
-	repeated GetCharactersReply_Character Characters = 1;
+	repeated GetCaractersReply_Caracter Caracters = 1;
+}
+
+message DeleteCaracterRequest{  
+    string Name = 1;
+}
+
+message DeleteCaracterReply{  
+    bool Result = 1;
 }

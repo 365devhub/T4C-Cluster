@@ -14,7 +14,8 @@ using static T4C_Cluster.API.Configuration;
 
 namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
 {
-    public class MainMenuController : IControlerAction<RequestGetPlayingCharacterList, PlayerSession>
+    public class MainMenuController : IControlerAction<RequestGetPlayingCharacterList, PlayerSession>,
+                                      IControlerAction<RequestDeleteCharacter, PlayerSession>
     {
 
         private ConfigurationClient _configurationClient;
@@ -26,23 +27,23 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
             _caracterClient = caracterClient;
         }
 
-
+        [SaveSnapshot]
         [ValidatePlayerAuthenticated]
         [ValidatePlayerNotInGame]
         public void Action(RequestGetPlayingCharacterList data, PlayerSession session, IActorRef actor)
         {
-            var chars = _caracterClient.GetCharacters(new T4C_Cluster.API.GetCharactersRequest() { Username = session.Account });
+            var chars = _caracterClient.GetCaracters(new T4C_Cluster.API.GetCaractersRequest() { Username = session.Account });
 
-            actor.Tell(new ResponseGetPlayingCharacterList() { Characters = chars.Characters.Select(c=> new ResponseGetPlayingCharacterList_CharsInfo() {
+            actor.Tell(new ResponseGetPlayingCharacterList() { Characters = chars.Caracters.Select(c => new ResponseGetPlayingCharacterList_CharsInfo() {
                 Name = c.Name,
-                Level=(ushort?)c.Level,
-                Race=(ushort?)c.Race,
-                Unknown=0
-            }).ToArray()});
+                Level = (ushort?)c.Level,
+                Race = (ushort?)c.Race,
+                Unknown = 0
+            }).ToArray() });
 
             actor.Tell(new ResponseGetPlayingCharacterListEquitSkin()
             {
-                Characters = chars.Characters.Select(c => new GetPlayingCharacterListEquitSkin_CharsEquipement()
+                Characters = chars.Caracters.Select(c => new GetPlayingCharacterListEquitSkin_CharsEquipement()
                 {
                     Belt = (ushort?)(c.Equipments.SingleOrDefault(x => x.Position == EquipmentPosition.Belt)?.SkinId),
                     Body = (ushort?)(c.Equipments.SingleOrDefault(x => x.Position == EquipmentPosition.Body)?.SkinId),
@@ -65,9 +66,31 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
                 }).ToArray()
             });
 
-            actor.Tell(new ResponseMaxCharacterPerAccount() { 
+            actor.Tell(new ResponseMaxCharacterPerAccount() {
                 NbMaxCharacter = (byte?)_configurationClient.GetNbCharacterMax(new T4C_Cluster.API.NbCharacterMaxRequest()).NbMax
             });
+
+            session.Caracters = chars.Caracters.Select(c => c.Name).ToList();
+        }
+
+        [SaveSnapshot]
+        [ValidatePlayerAuthenticated]
+        [ValidatePlayerNotInGame]
+        public void Action(RequestDeleteCharacter data, PlayerSession session, IActorRef actor)
+        {
+            if(!session.Caracters.Contains(data.Name))
+                actor.Tell(new ResponseDeleteCharacter() { ErrorCode = DeleteCharErrorCode.NotYourPlayer });
+
+
+            var result = _caracterClient.DeleteCaracter(new DeleteCaracterRequest() { Name = data.Name });
+
+            if(result.Result == false)
+                actor.Tell(new ResponseDeleteCharacter() { ErrorCode = DeleteCharErrorCode.OtherError });
+
+
+            actor.Tell(new ResponseDeleteCharacter() { ErrorCode = DeleteCharErrorCode.OK });
+
+            session.Caracters.RemoveAll(c=>c == data.Name);
         }
     }
 }
