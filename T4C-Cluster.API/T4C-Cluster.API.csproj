@@ -10,7 +10,7 @@
     <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\Configuration.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\Account.proto" GrpcServices="Server" />
-    <Protobuf Include="Protos\Caracter.proto" GrpcServices="Server" />
+    <Protobuf Include="Protos\Character.proto" GrpcServices="Server" />
   </ItemGroup>
 
   <ItemGroup>

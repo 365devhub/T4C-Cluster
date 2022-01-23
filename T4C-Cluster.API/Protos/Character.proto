@@ -1,0 +1,81 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "T4C_Cluster.API";
+
+package character;
+
+service Character {
+  rpc GetCharacters(GetCharactersRequest) returns (GetCharactersReply);
+  rpc CreateCharacter(CreateCharacterRequest) returns (CreateCharacterReply);
+  rpc DeleteCaracter(DeleteCharacterRequest) returns (DeleteCharacterReply);
+  rpc IsCharacterNameUsed(IsCharacterNameUsedRequest) returns (IsCharacterNameUsedReply);
+}
+
+
+enum EquipmentPosition
+{
+    Belt = 0;
+    Body = 1;
+    Bracelets = 2;
+    Cape =3;
+    Feet =4;
+    Gloves =5;
+    HairColor =6;
+    Helm =7;
+    Legs = 8;
+    Necklass = 9;
+    Orbe1 =10;
+    Ring1 = 12;
+    Ring2 =13;
+    Rings = 14;
+    TwoHands = 15;
+    Weapon = 16;
+    WeaponLeft = 17;
+    WeaponRight = 18;
+};
+
+message GetCharactersRequest {
+	string Username = 1;
+}
+
+message GetCharactersReply {
+	message GetCharactersReply_Character {
+		message GetCharactersReply_CharacterEquipment{
+            EquipmentPosition Position = 1;
+            uint32 SkinId = 2;
+        }
+
+        string Name = 1;
+		uint32 Level = 2;
+		uint32 Race =3;
+
+        repeated GetCharactersReply_CharacterEquipment Equipments = 4;
+
+	}
+	repeated GetCharactersReply_Character Caracters = 1;
+}
+
+
+message CreateCharacterRequest 
+{
+
+}
+
+message CreateCharacterReply {}
+
+
+message DeleteCharacterRequest{  
+    string Name = 1;
+}
+
+message DeleteCharacterReply{  
+    bool Result = 1;
+}
+
+message IsCharacterNameUsedRequest {
+    string Name = 1;
+}
+
+message IsCharacterNameUsedReply {
+    bool Used = 1;
+}
