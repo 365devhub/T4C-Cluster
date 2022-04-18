@@ -61,6 +61,31 @@ namespace T4C_Cluster.API.Services
             });
             return Task.FromResult(new CreateCharacterReply() { Result = true });
         }
+
+        public override Task<UpdateCharacterReply> UpdateCharacter(UpdateCharacterRequest request, ServerCallContext context)
+        {
+            chars.RemoveAll(w => w.Name == request.Name);
+            chars.Add(new TmpChar()
+            {
+                Agility = request.Agility,
+                Endurence = request.Endurence,
+                HealthPoint = request.HealthPoint,
+                Intelligence = request.Intelligence,
+                Level = request.Wisdom,
+                Luck = request.Luck,
+                ManaPoint = request.ManaPoint,
+                MaximumHealthPoint = request.MaximumHealthPoint,
+                MaximumManaPoint = request.MaximumManaPoint,
+                Name = request.Name,
+                Race = request.Race,
+                Strength = request.Strength,
+                Willpower = request.Willpower,
+                Wisdom = request.Wisdom,
+
+            });
+            return Task.FromResult(new UpdateCharacterReply() { Result = true });
+        }
+
         public override Task<DeleteCharacterReply> DeleteCaracter(DeleteCharacterRequest request, ServerCallContext context)
         {
             chars.RemoveAll(c=>c.Name == request.Name);

@@ -17,6 +17,7 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
     public class MainMenuController : IControlerAction<RequestGetPlayingCharacterList, PlayerSession>,
                                       IControlerAction<RequestDeleteCharacter, PlayerSession>,
                                       IControlerAction<RequestCreateCharacter, PlayerSession>,
+                                      IControlerAction<RequestReroll, PlayerSession>,
                                       IControlerAction<RequestQueryNameExistence, PlayerSession>
     {
 
@@ -163,6 +164,46 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
 
         }
 
+        [SaveSnapshot]
+        [ValidatePlayerAuthenticated]
+        [ValidatePlayerNotInGame]
+        [ValidatePlayerIsCreatingCharcater]
+        public void Action(RequestReroll data, PlayerSession session, IActorRef actor)
+        {
+            RequestCreateCharacter createContext = session.TemporaryObject;
+            var response = new ResponseReroll();
+            response.Strength = (byte)(_local.Next(0, 10) + (3.5 * createContext.AnswerQuestionWarrior) + (0.5 * createContext.AnswerQuestionMage) + (3.5 * createContext.AnswerQuestionThief) + (1.5 * createContext.AnswerQuestionPriest) + (1.5 * createContext.AnswerQuestionNormal));
+            response.Agility = (byte)(_local.Next(0, 10) + (1.5 * createContext.AnswerQuestionWarrior) + (1.5 * createContext.AnswerQuestionMage) + (3.5 * createContext.AnswerQuestionThief) + (0.5 * createContext.AnswerQuestionPriest) + (1.5 * createContext.AnswerQuestionNormal));
+            response.Endurence = (byte)(_local.Next(0, 10) + (3.5 * createContext.AnswerQuestionWarrior) + (0.5 * createContext.AnswerQuestionMage) + (1.5 * createContext.AnswerQuestionThief) + (1.5 * createContext.AnswerQuestionPriest) + (1.5 * createContext.AnswerQuestionNormal));
+            response.Intelligence = (byte)(_local.Next(0, 10) + (0.5 * createContext.AnswerQuestionWarrior) + (3.5 * createContext.AnswerQuestionMage) + (1.5 * createContext.AnswerQuestionThief) + (1.5 * createContext.AnswerQuestionPriest) + (1.5 * createContext.AnswerQuestionNormal));
+            response.Wisdom = (byte)(_local.Next(0, 10) + (0.5 * createContext.AnswerQuestionWarrior) + (1.5 * createContext.AnswerQuestionMage) + (0.5 * createContext.AnswerQuestionThief) + (3.5 * createContext.AnswerQuestionPriest) + (1.5 * createContext.AnswerQuestionNormal));
+            response.Willpower = 100;
+            response.Luck = 100;
+            response.HealthPoint = (UInt32)(_local.Next(1, 5) + _local.Next(1, 5) + 48 + response.Endurence);
+            response.MaximumHealthPoint = response.HealthPoint;
+            response.ManaPoint = (UInt16)(10 + ((response.Intelligence * 2) / 3) + (response.Wisdom / 3) + _local.Next(0, 5));
+            response.MaximumManaPoint = response.ManaPoint;
+
+            var replay = _characterClient.UpdateCharacter(new UpdateCharacterRequest()
+            {
+                Strength = (uint)response.Strength,
+                Agility = (uint)response.Agility,
+                Endurence = (uint)response.Endurence,
+                Intelligence = (uint)response.Intelligence,
+                Wisdom = (uint)response.Wisdom,
+                Willpower = (uint)response.Willpower,
+                Luck = (uint)response.Luck,
+                HealthPoint = (uint)response.HealthPoint,
+                MaximumHealthPoint = (uint)response.MaximumHealthPoint,
+                ManaPoint = (uint)response.ManaPoint,
+                MaximumManaPoint = (uint)response.MaximumManaPoint
+            });
+
+            if (replay.Result)
+            {
+                actor.Tell(response);
+            }
+        }
 
         public void Action(RequestQueryNameExistence data, PlayerSession session, IActorRef actor)
         {
