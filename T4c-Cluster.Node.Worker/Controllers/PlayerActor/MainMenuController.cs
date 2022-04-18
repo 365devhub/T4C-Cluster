@@ -28,7 +28,7 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
         {
             _configurationClient = configurationClient;
             _characterClient = characterClient;
-           _local = new Random();
+            _local = new Random();
         }
 
         [SaveSnapshot]
@@ -38,12 +38,16 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
         {
             var chars = _characterClient.GetCharacters(new T4C_Cluster.API.GetCharactersRequest() { Username = session.Account });
 
-            actor.Tell(new ResponseGetPlayingCharacterList() { Characters = chars.Caracters.Select(c => new ResponseGetPlayingCharacterList_CharsInfo() {
-                Name = c.Name,
-                Level = (ushort?)c.Level,
-                Race = (ushort?)c.Race,
-                Unknown = 0
-            }).ToArray() });
+            actor.Tell(new ResponseGetPlayingCharacterList()
+            {
+                Characters = chars.Caracters.Select(c => new ResponseGetPlayingCharacterList_CharsInfo()
+                {
+                    Name = c.Name,
+                    Level = (ushort?)c.Level,
+                    Race = (ushort?)c.Race,
+                    Unknown = 0
+                }).ToArray()
+            });
 
             actor.Tell(new ResponseGetPlayingCharacterListEquitSkin()
             {
@@ -70,7 +74,8 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
                 }).ToArray()
             });
 
-            actor.Tell(new ResponseMaxCharacterPerAccount() {
+            actor.Tell(new ResponseMaxCharacterPerAccount()
+            {
                 NbMaxCharacter = (byte?)_configurationClient.GetNbCharacterMax(new T4C_Cluster.API.NbCharacterMaxRequest()).NbMax
             });
 
@@ -81,22 +86,22 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
         [SaveSnapshot]
         [ValidatePlayerAuthenticated]
         [ValidatePlayerNotInGame]
-        [ValidatePlayerNotIsCreatingCharcater]
         public void Action(RequestDeleteCharacter data, PlayerSession session, IActorRef actor)
         {
-            if(!session.Caracters.Contains(data.Name))
+            if (!session.Caracters.Contains(data.Name))
                 actor.Tell(new ResponseDeleteCharacter() { ErrorCode = DeleteCharErrorCode.NotYourPlayer });
 
 
             var result = _characterClient.DeleteCaracter(new DeleteCharacterRequest() { Name = data.Name });
 
-            if(result.Result == false)
+            if (result.Result == false)
                 actor.Tell(new ResponseDeleteCharacter() { ErrorCode = DeleteCharErrorCode.OtherError });
 
 
             actor.Tell(new ResponseDeleteCharacter() { ErrorCode = DeleteCharErrorCode.OK });
 
-            session.Caracters.RemoveAll(c=>c == data.Name);
+            session.Caracters.RemoveAll(c => c == data.Name);
+            session.IsCreatingCharacter = false;
         }
 
         [SaveSnapshot]
@@ -113,14 +118,14 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
             else if (_characterClient.GetCharacters(new GetCharactersRequest() { Username = session.Account }).Caracters.Count > _configurationClient.GetNbCharacterMax(new NbCharacterMaxRequest()).NbMax)
             {
                 actor.Tell(new ResponseCreateCharacter() { Status = ResponseCreateCharacterStatus.TooManyChar });
-            } 
-            else 
+            }
+            else
             {
                 session.TemporaryObject = data;
 
                 var response = new ResponseCreateCharacter();
-                response.Status = ResponseCreateCharacterStatus.OK;                
-                response.Strength = (byte)(_local.Next(0, 10) + (3.5 * data.AnswerQuestionWarrior) + (0.5 * data.AnswerQuestionMage) + (3.5 * data.AnswerQuestionThief) + (1.5 * data.AnswerQuestionPriest) + (1.5 * data.AnswerQuestionNormal)); 
+                response.Status = ResponseCreateCharacterStatus.OK;
+                response.Strength = (byte)(_local.Next(0, 10) + (3.5 * data.AnswerQuestionWarrior) + (0.5 * data.AnswerQuestionMage) + (3.5 * data.AnswerQuestionThief) + (1.5 * data.AnswerQuestionPriest) + (1.5 * data.AnswerQuestionNormal));
                 response.Agility = (byte)(_local.Next(0, 10) + (1.5 * data.AnswerQuestionWarrior) + (1.5 * data.AnswerQuestionMage) + (3.5 * data.AnswerQuestionThief) + (0.5 * data.AnswerQuestionPriest) + (1.5 * data.AnswerQuestionNormal));
                 response.Endurence = (byte)(_local.Next(0, 10) + (3.5 * data.AnswerQuestionWarrior) + (0.5 * data.AnswerQuestionMage) + (1.5 * data.AnswerQuestionThief) + (1.5 * data.AnswerQuestionPriest) + (1.5 * data.AnswerQuestionNormal));
                 response.Intelligence = (byte)(_local.Next(0, 10) + (0.5 * data.AnswerQuestionWarrior) + (3.5 * data.AnswerQuestionMage) + (1.5 * data.AnswerQuestionThief) + (1.5 * data.AnswerQuestionPriest) + (1.5 * data.AnswerQuestionNormal));
@@ -132,16 +137,32 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
                 response.ManaPoint = (UInt16)(10 + ((response.Intelligence * 2) / 3) + (response.Wisdom / 3) + _local.Next(0, 5));
                 response.MaximumManaPoint = response.ManaPoint;
 
-                /*_characterClient.CreateCharacter(new CreateCharacterRequest() {
-                
-                });*/
+                var replay = _characterClient.CreateCharacter(new CreateCharacterRequest()
+                {
+                    Strength = (uint)response.Strength,
+                    Agility = (uint)response.Agility,
+                    Endurence = (uint)response.Endurence,
+                    Intelligence = (uint)response.Intelligence,
+                    Wisdom = (uint)response.Wisdom,
+                    Willpower = (uint)response.Willpower,
+                    Luck = (uint)response.Luck,
+                    HealthPoint = (uint)response.HealthPoint,
+                    MaximumHealthPoint = (uint)response.MaximumHealthPoint,
+                    ManaPoint = (uint)response.ManaPoint,
+                    MaximumManaPoint = (uint)response.MaximumManaPoint
+                });
 
-                actor.Tell(response);
+
+                session.IsCreatingCharacter = true;
+
+                if (replay.Result)
+                {
+                    actor.Tell(response);
+                }
             }
 
-
-            session.IsCreatingCharacter = true;
         }
+
 
         public void Action(RequestQueryNameExistence data, PlayerSession session, IActorRef actor)
         {
