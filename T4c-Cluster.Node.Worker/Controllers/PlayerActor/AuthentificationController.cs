@@ -30,6 +30,7 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
 
         [ValidatePlayerAuthenticated]
         [ValidatePlayerNotInGame]
+        [ValidatePlayerNotIsCreatingCharcater]
         public void Action(RequestAuthenticateServerVersion data, PlayerSession session, IActorRef actor)
         {
             if (data.Version == Constants.SERVER_VERSION)
@@ -53,7 +54,6 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
 
         [SaveSnapshot]
         [ValidatePlayerNotAuthenticated]
-        [ValidatePlayerNotInGame]
         public void Action(RequestRegisterAccount data, PlayerSession session, IActorRef actor)
         {
             var psplit = data.Password.Split("\\");
@@ -74,7 +74,6 @@ namespace T4c_Cluster.Node.Worker.Controllers.PlayerActor
         }
 
         [ValidatePlayerNotAuthenticated]
-        [ValidatePlayerNotInGame]
         public void Action(RequestPatchServerInfoNew data, PlayerSession session, IActorRef actor)
         {
             var info = _configurationClient.GetPatchServerInformations(new T4C_Cluster.API.PatchServerInformationsRequest());

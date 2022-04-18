@@ -40,6 +40,10 @@ namespace T4c_Cluster.Node.Worker.Controllers
                         return;
                     if (!(m.GetCustomAttribute<ValidatePlayerInGameAttribute>()?.Validate((PlayerSession)Convert.ChangeType(session, typeof(PlayerSession)))).GetValueOrDefault(true))
                         return;
+                    if (!(m.GetCustomAttribute<ValidatePlayerIsCreatingCharcaterAttribute>()?.Validate((PlayerSession)Convert.ChangeType(session, typeof(PlayerSession)))).GetValueOrDefault(true))
+                        return;
+                    if (!(m.GetCustomAttribute<ValidatePlayerNotIsCreatingCharcaterAttribute>()?.Validate((PlayerSession)Convert.ChangeType(session, typeof(PlayerSession)))).GetValueOrDefault(true))
+                        return;
 
                     var message = Convert.ChangeType(o, type0);
                     m.Invoke(controler, new object[] { message, session, self });
