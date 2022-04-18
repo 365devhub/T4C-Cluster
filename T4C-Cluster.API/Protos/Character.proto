@@ -7,6 +7,7 @@ package character;
 service Character {
   rpc GetCharacters(GetCharactersRequest) returns (GetCharactersReply);
   rpc CreateCharacter(CreateCharacterRequest) returns (CreateCharacterReply);
+  rpc UpdateCharacter(UpdateCharacterRequest) returns (UpdateCharacterReply);
   rpc DeleteCaracter(DeleteCharacterRequest) returns (DeleteCharacterReply);
   rpc IsCharacterNameUsed(IsCharacterNameUsedRequest) returns (IsCharacterNameUsedReply);
 }
@@ -74,6 +75,26 @@ message CreateCharacterRequest
     uint32 ManaPoint =13;
 }
 message CreateCharacterReply {
+    bool Result = 1;
+}
+message UpdateCharacterRequest 
+{
+	string Name = 1;
+    uint32 Race = 2;
+    uint32 Agility=3;
+   
+    uint32 Endurence=4;
+    uint32 Intelligence=5;
+    uint32 Luck=6;
+    uint32 Strength=7;
+    uint32 Willpower=8;
+    uint32 Wisdom=9;
+    uint32 MaximumHealthPoint =20;
+    uint32 HealthPoint =11;
+    uint32 MaximumManaPoint =12;
+    uint32 ManaPoint =13;
+}
+message UpdateCharacterReply {
     bool Result = 1;
 }
 
